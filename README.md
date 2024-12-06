@@ -16,7 +16,7 @@ Asegúrate de tener Git instalado en tu máquina.
 Clona este repositorio ejecutando:
 bash
 Copiar código
-git clone [URL_DEL_REPOSITORIO]
+git clone https://github.com/LazcanoMario/Inventario.git
 cd [CARPETA_DEL_PROYECTO]
 
 2. Configurar la Base de Datos
