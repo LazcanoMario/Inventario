@@ -1,3 +1,5 @@
+NOTA IMPORTANTE! : INSERTAR EN UNA CARPETA LLAMADA PHP TODOS LOS PHP INCLUYENDO EL HTML , SALVO POR EL ARCHIVO CONEXION.
+
 # InventarioRequisitos del Sistema
 Hardware
 Procesador: Intel i3 o superior.
