@@ -1,189 +1,163 @@
+# TerMic
 
+**TerMic** es un sistema de monitoreo y control para tanques de laboratorio diseñado para observar y gestionar variables críticas como temperatura, sanidad del agua (pH, oxígeno, salinidad, nivel), y alertas por fallas de componentes. Está enfocado en el manejo del **shock térmico en moluscos** para agilizar su reproducción.
 
-TerMic
+Desarrollado como parte de un proyecto académico del **Instituto Tecnológico de Ensenada**, TerMic permite automatizar procesos térmicos, visualizar datos en tiempo real, registrar históricos y gestionar roles de usuario mediante una interfaz gráfica intuitiva.
 
-TerMic es un sistema de monitoreo y control para tanques de laboratorio que permite observar y gestionar variables críticas como temperatura, estado del agua (sanidad, pH, oxígeno, nivel) y alertas por fallas en componentes. El sistema incluye funcionalidades avanzadas como control por roles, historial de eventos, y visualización de parámetros en tiempo real. Está orientado al manejo de shock térmico en moluscos con el fin de agilizar su reproducción , con alertas ante anormalidades y herramientas de acondicionamiento de tanques.
+---
 
-Está enfocado en estimular la reproducción de moluscos, como almejas, mediante un ambiente controlado, y fue desarrollado como parte de un proyecto académico en el Instituto Tecnológico de Ensenada.
+## 🚀 Tecnologías Utilizadas
 
-El sistema permite la automatización del proceso térmico, el registro histórico de datos, y proporciona una interfaz gráfica intuitiva para facilitar su uso por parte del personal técnico.
-
-
-
-Tecnologias:
-
-| Área       | Tecnologías |
-|------------|-------------|
-| **Frontend** | HTML5, CSS3, Bootstrap, JavaScriptr |
-| **Backend**  | php |
+| Área         | Tecnologías                        |
+|--------------|------------------------------------|
+| **Frontend** | HTML5, CSS3, Bootstrap, JavaScript |
+| **Backend**  | PHP                                |
 | **Hardware** | Arduino, Celdas Peltier, Sensores DS18B20 |
-| **Base de Datos** | MySQL  |
+| **Base de Datos** | MySQL / MariaDB              |
 
+---
 
-Requisitos de instalacion: 
-Entorno de servidor
-. Puedes usar:
-XAMPP (recomendado)
+## ⚙️ Requisitos de Instalación
 
+### Entorno de servidor recomendado:
 
-MAMP
+- [XAMPP](https://www.apachefriends.org/es/index.html) (recomendado)  
+O bien:
+- MAMP
+- Laragon
+- Un servidor Linux con Apache/Nginx
 
+### Componentes necesarios:
 
-Laragon
+| Componente     | Versión mínima | Descripción                              |
+|----------------|----------------|------------------------------------------|
+| PHP            | 7.4            | Para ejecutar scripts del backend        |
+| MySQL/MariaDB  | 5.7+           | Para almacenamiento de datos             |
+| Apache/Nginx   | Cualquiera     | Servidor web                             |
+| Bootstrap      | 5.x (CDN)      | Para estilos responsivos                 |
+| PHPMyAdmin     | Opcional       | Para gestión visual de base de datos     |
 
+---
 
-Un servidor Linux con:
+## 🗃️ Estructura de la Base de Datos: `tanques_db`
 
+### Tablas:
 
-Apache o Nginx
+- `datos_acondicionamiento`
+- `datos_alertas`
+- `datos_graficas_acondicionamiento`
+- `datos_graficas_alertas`
+- `datos_historial_temperatura`
+- `datos_tanques`
+- `usuarios`
 
+---
 
-PHP >= 7.4
+### 📊 Estructura de Tablas
 
+#### `datos_acondicionamiento`
 
-MySQL o MariaDB
+| Campo       | Tipo         |
+|-------------|--------------|
+| id          | INT, PK, AUTO_INCREMENT |
+| temperatura | DECIMAL(4,1) |
+| salinidad   | DECIMAL(4,1) |
+| ph          | DECIMAL(4,2) |
+| oxigeno     | DECIMAL(4,1) |
+| bomba       | DECIMAL(5,1) |
+| nivel_agua  | DECIMAL(5,1) |
+| uv          | VARCHAR(10)  |
+| horas_uv    | INT(11)      |
 
+---
 
-Componentes necesarios
-Componente
-Versión mínima
-Descripción
-PHP
-7.4
-Para ejecutar scripts del backend
-MySQL/MariaDB
-5.7+
-Para almacenamiento de datos
-Apache/Nginx
-Cualquiera
-Servidor web
-Bootstrap
-5.x
-Para estilos y diseño responsivo (CDN)
-PHPMyAdmin
-Opcional
-Para gestión de base de datos
+#### `datos_alertas`
 
+| Campo   | Tipo      |
+|---------|-----------|
+| id      | INT, PK, AUTO_INCREMENT |
+| tanque  | INT(11)   |
+| fecha   | DATE      |
+| hora    | TIME      |
+| detalles| TEXT      |
 
+---
 
-Estructura de la base de datos: 
-+----------------------------------+
-| Tables_in_tanques_db             |
-+----------------------------------+
-| datos_acondicionamiento          |
-| datos_alertas                    |
-| datos_graficas_acondicionamiento |
-| datos_graficas_alertas           |
-| datos_historial_temperatura      |
-| datos_tanques                    |
-| usuarios                         |
-+----------------------------------+
- datos_acondicionamiento;
-+-------------+--------------+------+-----+---------+----------------+
-| Field       | Type         | Null | Key | Default | Extra          |
-+-------------+--------------+------+-----+---------+----------------+
-| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-| temperatura | decimal(4,1) | YES  |     | NULL    |                |
-| salinidad   | decimal(4,1) | YES  |     | NULL    |                |
-| ph          | decimal(4,2) | YES  |     | NULL    |                |
-| oxigeno     | decimal(4,1) | YES  |     | NULL    |                |
-| bomba       | decimal(5,1) | YES  |     | NULL    |                |
-| nivel_agua  | decimal(5,1) | YES  |     | NULL    |                |
-| uv          | varchar(10)  | YES  |     | NULL    |                |
-| horas_uv    | int(11)      | YES  |     | NULL    |                |
-+-------------+--------------+------+-----+---------+----------------+
-)
+#### `datos_graficas_acondicionamiento`
 
- datos_alertas;
-+----------+---------+------+-----+---------+----------------+
-| Field    | Type    | Null | Key | Default | Extra          |
-+----------+---------+------+-----+---------+----------------+
-| id       | int(11) | NO   | PRI | NULL    | auto_increment |
-| tanque   | int(11) | YES  |     | NULL    |                |
-| fecha    | date    | YES  |     | NULL    |                |
-| hora     | time    | YES  |     | NULL    |                |
-| detalles | text    | YES  |     | NULL    |                |
-+----------+---------+------+-----+---------+----------------+
+| Campo     | Tipo         |
+|-----------|--------------|
+| id        | INT, PK, AUTO_INCREMENT |
+| hora      | TIME         |
+| salinidad | DECIMAL(4,1) |
+| oxigeno   | DECIMAL(4,1) |
+| ph        | DECIMAL(4,2) |
 
+---
 
-datos_graficas_acondicionamiento
-+-----------+--------------+------+-----+---------+----------------+
-| Field     | Type         | Null | Key | Default | Extra          |
-+-----------+--------------+------+-----+---------+----------------+
-| id        | int(11)      | NO   | PRI | NULL    | auto_increment |
-| hora      | time         | YES  |     | NULL    |                |
-| salinidad | decimal(4,1) | YES  |     | NULL    |                |
-| oxigeno   | decimal(4,1) | YES  |     | NULL    |                |
-| ph        | decimal(4,2) | YES  |     | NULL    |                |
-+-----------+--------------+------+-----+---------+----------------+
-datos_graficas_alertas
-+----------+--------------+------+-----+---------+----------------+
-| Field    | Type         | Null | Key | Default | Extra          |
-+----------+--------------+------+-----+---------+----------------+
-| id       | int(11)      | NO   | PRI | NULL    | auto_increment |
-| fecha    | date         | YES  |     | NULL    |                |
-| hora     | time         | YES  |     | NULL    |                |
-| tipo     | varchar(20)  | YES  |     | NULL    |                |
-| titulo   | varchar(100) | YES  |     | NULL    |                |
-| detalles | text         | YES  |     | NULL    |                |
-| duracion | varchar(20)  | YES  |     | NULL    |                |
-+----------+--------------+------+-----+---------+----------------+
+#### `datos_graficas_alertas`
 
+| Campo   | Tipo          |
+|---------|---------------|
+| id      | INT, PK, AUTO_INCREMENT |
+| fecha   | DATE          |
+| hora    | TIME          |
+| tipo    | VARCHAR(20)   |
+| titulo  | VARCHAR(100)  |
+| detalles| TEXT          |
+| duracion| VARCHAR(20)   |
 
- datos_historial_temperatura
-+-------------+-----------------+------+-----+---------+----------------+
-| Field       | Type            | Null | Key | Default | Extra          |
-+-------------+-----------------+------+-----+---------+----------------+
-| id          | int(11)         | NO   | PRI | NULL    | auto_increment |
-| tanque      | int(11)         | YES  |     | NULL    |                |
-| fecha       | date            | YES  |     | NULL    |                |
-| hora        | time            | YES  |     | NULL    |                |
-| temperatura | decimal(4,1)    | YES  |     | NULL    |                |
-| alerta      | enum('si','no') | YES  |     | no      |                |
-+-------------+-----------------+------+-----+---------+----------------+
- datos_tanques
-+---------------+--------------+------+-----+---------+----------------+
-| Field         | Type         | Null | Key | Default | Extra          |
-+---------------+--------------+------+-----+---------+----------------+
-| id            | int(11)      | NO   | PRI | NULL    | auto_increment |
-| tanque        | int(11)      | YES  |     | NULL    |                |
-| temperatura   | decimal(4,1) | YES  |     | NULL    |                |
-| estado        | varchar(20)  | YES  |     | NULL    |                |
-| proximo_shock | time         | YES  |     | NULL    |                |
-+---------------+--------------+------+-----+---------+----------------+
-usuarios
-+------------+--------------+------+-----+---------------------+----------------+
-| Field      | Type         | Null | Key | Default             | Extra          |
-+------------+--------------+------+-----+---------------------+----------------+
-| id         | int(11)      | NO   | PRI | NULL                | auto_increment |
-| correo     | varchar(255) | NO   | UNI | NULL                |                |
-| contrasena | varchar(255) | NO   |     | NULL                |                |
-| creado_en  | timestamp    | YES  |     | current_timestamp() |                |
+---
 
+#### `datos_historial_temperatura`
 
-Integrantes del proyecto
+| Campo       | Tipo            |
+|-------------|-----------------|
+| id          | INT, PK, AUTO_INCREMENT |
+| tanque      | INT(11)         |
+| fecha       | DATE            |
+| hora        | TIME            |
+| temperatura | DECIMAL(4,1)    |
+| alerta      | ENUM('si','no') DEFAULT 'no' |
 
+---
 
-Juan Manuel Aguilar Cañas – 22760305
+#### `datos_tanques`
 
+| Campo         | Tipo         |
+|---------------|--------------|
+| id            | INT, PK, AUTO_INCREMENT |
+| tanque        | INT(11)      |
+| temperatura   | DECIMAL(4,1) |
+| estado        | VARCHAR(20)  |
+| proximo_shock | TIME         |
 
-Julio Gorosave Osuna – 22760242
+---
 
+#### `usuarios`
 
-Mario Antonio Lazcano Butcher – 22760908
+| Campo      | Tipo         |
+|------------|--------------|
+| id         | INT, PK, AUTO_INCREMENT |
+| correo     | VARCHAR(255), UNIQUE |
+| contrasena | VARCHAR(255) |
+| creado_en  | TIMESTAMP DEFAULT CURRENT_TIMESTAMP |
 
+---
 
-Secundino Salinas Ximena Monserrat – 22760247
+## 👥 Integrantes del Proyecto
 
-Liga del documento:
+- Juan Manuel Aguilar Cañas – 22760305  
+- Julio Gorosave Osuna – 22760242  
+- Mario Antonio Lazcano Butcher – 22760908  
+- Secundino Salinas Ximena Monserrat – 22760247  
 
-https://docs.google.com/document/d/15hHVSmx6Gx1DyM3_B5P0TxtX-uWLP8DGWPVq2k5Yhx8/edit?tab=t.0
+---
 
+## 📄 Documentación
 
+Puedes consultar el documento oficial del proyecto aquí:  
+[🔗 Documento Google Docs](https://docs.google.com/document/d/15hHVSmx6Gx1DyM3_B5P0TxtX-uWLP8DGWPVq2k5Yhx8/edit?tab=t.0)
 
-
-
-
-
-
+---
 
